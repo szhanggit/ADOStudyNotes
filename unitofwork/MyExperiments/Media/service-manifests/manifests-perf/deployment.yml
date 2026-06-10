@@ -1,0 +1,92 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: perf
+  name: media-api 
+  labels:
+    app: media-api
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:      
+      app: media-api
+  template:
+    metadata:
+      labels:
+        app: media-api 
+        tier: backend
+    spec:
+      containers:
+        - name: media-api 
+          image: esgaksacrd.azurecr.io/txc-media-api:$(tag)
+          volumeMounts:
+          - name: esg-perf-secrets-store01-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+          ports:
+            - containerPort: 8001
+            - containerPort: 9001
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Perf"
+            - name: Perf-TenantDBConnectionString-1
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-1
+                  key: perf-tenantdbconnectionstring-1
+            - name: Perf-TenantDBConnectionString-2
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-2
+                  key: perf-tenantdbconnectionstring-2
+            - name: Perf-TenantDBConnectionString-3
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-3
+                  key: perf-tenantdbconnectionstring-3
+            - name: Perf-TenantDBConnectionString-4
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-4
+                  key: perf-tenantdbconnectionstring-4
+            - name: Perf-TenantDBConnectionString-5
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-5
+                  key: perf-tenantdbconnectionstring-5
+            - name: Perf-TenantDBConnectionString-6
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-6
+                  key: perf-tenantdbconnectionstring-6
+            - name: Perf-TenantDBConnectionString-7
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-7
+                  key: perf-tenantdbconnectionstring-7
+            - name: Perf-TenantDBConnectionString-8
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-8
+                  key: perf-tenantdbconnectionstring-8
+            - name: Perf-TenantDBConnectionString-9
+              valueFrom:
+                secretKeyRef:
+                  name: perf-tenantdbconnectionstring-9
+                  key: perf-tenantdbconnectionstring-9
+          resources:
+            requests:
+               cpu: "100m"
+               memory: "64Mi"
+            limits:
+               cpu: "110m"
+               memory: "128Mi"
+      restartPolicy: Always
+      volumes:
+      - name: esg-perf-secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "esg-perf-aks-spc"   

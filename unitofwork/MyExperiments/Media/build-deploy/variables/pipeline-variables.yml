@@ -1,0 +1,30 @@
+variables:
+  # DB Migration
+- name: folderPath
+  value: 'MicroServices/Media/src/Database'
+- name: flywayDBSchema
+  value: 'media'
+  # Container registry service connection established during pipeline creation
+- name: imageRepository
+  value: 'txc-media-api'
+  # Build
+- name: dockerfilePath
+  value: 'MicroServices/Media/src/Dockerfile'
+- name: protoProjectPath
+  value: 'MicroServices/Media/src/TXC.Proto.Media/TXC.Proto.Media.csproj'
+- name: unitTestProjectPath
+  value: 'MicroServices/Media/src/UnitTest.Test/UnitTest.Test.csproj'
+  # Conditionals
+- name: updateTenantDB
+  value: 'true'
+  # Manifests
+- name: manifestsDevPath
+  value: 'MicroServices/Media/service-manifests/manifests-dev'
+- name: manifestsStagingPath
+  value: 'MicroServices/Media/service-manifests/manifests-sit'
+- name: manifestsUATPath
+  value: 'MicroServices/Media/service-manifests/manifests-uat'
+- name: manifestsPerfPath
+  value: 'MicroServices/Media/service-manifests/manifests-perf'
+- name: manifestsProdPath
+  value: 'MicroServices/Media/service-manifests/manifests-prod'

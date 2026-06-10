@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <RootNamespace>TXC.Proto.Client</RootNamespace>
+	  <PackageId>TXC.Proto.Client</PackageId>
+	  <Version>2.0.0.3</Version>
+	  <Authors>Edenred</Authors>
+	  <Description>Client Proto</Description>
+	  <IsPackable>true</IsPackable>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.5" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.47.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.47.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TXC.Proto.Credit" Version="2.0.0.4" />
+  </ItemGroup>
+	
+  <ItemGroup>
+	  <Protobuf Include="Protos\common.proto" GrpcServices="Server,Client" AdditionalImportDirs="Protos" />
+	  <Protobuf Include="Protos\client.proto" GrpcServices="Server,Client" AdditionalImportDirs="Protos" />
+  </ItemGroup>
+</Project>

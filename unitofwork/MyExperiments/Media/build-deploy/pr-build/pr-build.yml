@@ -1,0 +1,14 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- none
+
+variables:
+- template: ${{variables['System.DefaultWorkingDirectory']}}/MicroServices/Media/build-deploy/variables/pipeline-variables.yml
+- name: tag
+  value: '$(Build.SourceVersion)'
+
+stages:
+- template: ${{variables['System.DefaultWorkingDirectory']}}/Shared/deploy/full-deploy/template-stage-prbuild.yml
