@@ -1,0 +1,38 @@
+﻿@model IEnumerable<GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h4>Group Meeting Web App</h4><hr />
+<h4>
+    <a asp-action="AddGroupMeeting">Add GroupMeeting</a>
+</h4>
+<div>
+    <table class="table table-responsive table-bordered panel-primary">
+        <thead>
+            <th>Project Name</th>
+            <th>Group Lead Name</th>
+            <th>Team Lead Name</th>
+            <th>Description</th>
+            <th>Meeting Date</th>
+        <th></th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            { 
+            <tr>
+                <td>@Html.DisplayFor(model => item.ProjectName)</td>
+                <td>@Html.DisplayFor(model => item.GroupMeetingLeadName)</td>
+                <td>@Html.DisplayFor(model => item.TeamLeadName)</td>
+                <td>@Html.DisplayFor(model => item.Description)</td>
+                <td>@Html.DisplayFor(model => item.GroupMeetingDate)</td>
+                <td>
+                    <a asp-action="EditMeeting" asp-route-id="@item.Id">Edit</a>|
+                    <a asp-action="DeleteMeeting" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

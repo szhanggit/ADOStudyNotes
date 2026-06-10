@@ -1,0 +1,53 @@
+select * from Customers
+
+select CustomerID, ContactName from Customers
+select CompanyName, ContactTitle, ContactName from Customers
+
+database lookup
+
+
+
+CREATE TYPE [dbo].[Customer_Input] AS TABLE(
+    [CustomerId] [varchar](50) NOT NULL,
+	[ContactName] [varchar](50) NOT NULL
+)
+GO
+
+CREATE TYPE [dbo].[Customer_Output] AS TABLE(
+	[CompanyName] [varchar](50) NOT NULL,
+	[ContactTitle] [varchar](50) NOT NULL,
+	[ContactName] [varchar](50) NOT NULL
+)
+GO
+
+
+
+IF EXISTS ( SELECT  1
+            FROM    dbo.sysobjects
+            WHERE   id = OBJECT_ID(N'[dbo].[spGetCompaniesOfCustomers]')
+                    AND OBJECTPROPERTY(id, N'IsProcedure') = 1 )
+    DROP PROCEDURE [dbo].[spGetCompaniesOfCustomers]
+GO
+
+CREATE PROCEDURE [dbo].[spGetCompaniesOfCustomers]
+    @TableName varchar(50) = 'Customers',
+	@Customers Customer_Input Readonly
+AS
+BEGIN
+	SET NOCOUNT ON;
+    DECLARE @sql nvarchar(3000);
+    SET @sql = 'Select CS.CompanyName, CS.ContactTitle, CS.ContactName from '+@TableName+' As CS With(NOLOCK) INNER JOIN @Customers As C On C.CustomerId = CS.CustomerId'
+	exec sp_executesql  @sql, N'@Customers Customer_Input Readonly', @Customers;	
+END
+GO
+
+
+---------------------------------------------------------------------------
+declare @Customers dbo.Customer_Input
+insert into @Customers values('ALFKI', 'Maria Anders');
+insert into @Customers values('ANATR', 'Ana Trujillo');
+insert into @Customers values('ANTON', 'Antonio Moreno');
+insert into @Customers values('AROUT', 'Thomas Hardy');
+insert into @Customers values('BERGS', 'Christina Berglund');
+
+exec spGetCompaniesOfCustomers 'Customers', @Customers;

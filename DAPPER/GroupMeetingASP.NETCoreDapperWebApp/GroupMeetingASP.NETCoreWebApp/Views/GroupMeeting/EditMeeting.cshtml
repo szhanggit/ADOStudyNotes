@@ -1,0 +1,42 @@
+﻿@model GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting
+@{
+    ViewData["Title"] = "EditMeeting";
+}
+<h4>Update the Meeting</h4>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditMeeting">
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="ProjectName" class="control-label"></label>
+                <input asp-for="ProjectName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupMeetingLeadName" class="control-label"></label>
+                <input asp-for="GroupMeetingLeadName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TeamLeadName" class="control-label"></label>
+                <input asp-for="TeamLeadName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupMeetingDate" class="control-label"></label>
+                <input asp-for="GroupMeetingDate" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit Meeting" class="btn btn-success btn-sm" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back To Home</a>
+</div>
+

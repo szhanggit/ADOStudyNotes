@@ -1,0 +1,45 @@
+﻿@model GroupMeetingASP.NETCoreWebApp.Models.GroupMeeting
+@{
+    ViewData["Title"] = "DeleteMeeting";
+}
+
+<h3 class="alert">Are you sure you want to delete this?</h3>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupMeetingLeadName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupMeetingLeadName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TeamLeadName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TeamLeadName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupMeetingDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupMeetingDate)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteMeeting">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="YES" class="btn btn-danger btn-sm" /> <a asp-action="Index" class="btn btn-danger">NO</a>
+    </form>
+</div>  

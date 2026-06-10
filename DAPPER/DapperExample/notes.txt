@@ -1,0 +1,105 @@
+MO_ExecuteScalar0-------------------------------------------------------
+Execute update or delete and return int.
+MO_ExecuteScalarSP-------------------------------------------------------
+Stored Procedures and with parameters
+MO_Execute0-------------------------------------------------------
+Automatically return the number of records updated.
+
+                conn.MO_Execute(SqlStringManager.InsertVoucherCombo, new
+                {
+                    MasterVoucherNumber = new DbString() { Value = masterVoucherNumber, IsAnsi = true },
+                    MasterProgramCode = new DbString() { Value = masterProgramCode, IsAnsi = true },
+                    ChildVoucherNumber = new DbString() { Value = childVoucherNumber, IsAnsi = true },
+                    ProgramCode = new DbString() { Value = programCode, IsAnsi = true },
+                    MasterRedemptionTranCode = new DbString() { Value = masterRedemptionTranCode, IsAnsi = true },
+                    MasterRedemptionTranAmount = masterRedemptionTranAmount
+                });
+MO_ExecuteSP-------------------------------------------------------
+Stored Procedures and with parameters
+conn.MO_Execute("spUpdateReservationBatchAvailableDate", new { @SourceBatchNumbers = SourceBatchNumbers, @DestBatchNumbers = DestBatchNumbers, @AvailableStartDate = AvailableStartDate, @AvailableEndDate = AvailableEndDate, @ExpiryDate = ExpiryDate }, commandType: CommandType.StoredProcedure);
+MO_ExecuteTrans-------------------------------------------------------
+BEGIN TRAN
+MO_Query0-------------------------------------------------------
+Return dictionary
+IDictionary<string, object> dic;
+dic = conn.MO_Query(SqlStringManager.QueryStockInfo, new { programId = programId }).FirstOrDefault() as IDictionary<string, object>;
+-------------------------
+Return an object
+return conn.MO_Query<EMVOrderProductInfo>("SELECT RCN,FirstName,LastName,OrderBeneficiaryInfoId FROM EXT_IN_APIOrderInfo WITH(NOLOCK) WHERE OrderNumber = @orderNumber;", new { orderNumber });
+-------------------------
+Return IEnumerable<QueryMerchantAndShopResult>
+return conn.MO_Query<QueryMerchantAndShopResult>(sql, new { MerchantCode = merchantCode, MerchantName = merchantName, ShopCode = shopCode, ShopName = shopName, PageSize = pageSize, PageIndex = pageIndex });
+-------------------------
+MO_Query1-------------------------------------------------------
+After insert, get Identity
+                return conn.MO_Query<int>(@"insert into ClearCacheProductStopAPI (ProductId , [Status],ValidEnd) Values(@ProductId,0,@ValidEnd);
+                                            select SCOPE_IDENTITY()", param, commandTimeout: DapperHelper.LongTimeout).FirstOrDefault();
+											
+
+
+
+----------------------------------------------------------------
+            string sql = @"select * from TransactionHistory with(nolock) where AccountNumber = @AccountNumber AND TranCode = @TranCode";
+            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["d_ev_authorizationContext"].ConnectionString))
+            {
+                tran = conn.QueryFirstOrDefault<Transaction>(sql, new {
+                    AccountNumber = new DbString() { Value = AccountNumber, IsAnsi = true }
+                    , TranCode = new DbString() { Value = TranCode, IsAnsi = true }
+                });
+            }
+
+
+----------------------------------------------------------------
+            IDictionary<long, int> _dic = new Dictionary<long, int>();
+            using (SqlConnection conn = new SqlConnection(SqlHelper.MOConnectionString))
+            {
+                var _list = conn.MO_Query("SELECT MasterVoucherId, [Status] as ComboStatus FROM dbo.VoucherCombo WITH(NOLOCK) WHERE ChildVoucherId = @id", new { Id = ChildVoucherId }).ToList();
+
+                foreach (var obj in _list)
+                {
+                    long MasterVoucherId = 0;
+                    int ComboStatus = 0;
+
+                    if (CommonHelper.PropertyExists(obj, "MasterVoucherId"))
+                    {
+                        MasterVoucherId = obj.MasterVoucherId;
+                    }
+
+                    if (CommonHelper.PropertyExists(obj, "ComboStatus"))
+                    {
+                        ComboStatus = obj.ComboStatus;
+                    }
+
+                    if (MasterVoucherId > 0 && ComboStatus > 0)
+                    {
+                        _dic.Add(MasterVoucherId, ComboStatus);
+                    }
+                }
+            }
+
+            return _dic;
+
+
+        public static bool PropertyExists(dynamic obj, string name)
+        {
+            if (obj == null) return false;
+            if (obj is IDictionary<string, object> dict)
+            {
+                return dict.ContainsKey(name);
+            }
+            return obj.GetType().GetProperty(name) != null;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

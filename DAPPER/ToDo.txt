@@ -1,0 +1,39 @@
+        private bool Create(ClientDto content)
+        {
+            try
+            {
+                string SQL = @"SET IDENTITY_INSERT dbo.Client OFF;
+                    DECLARE @addressId INT
+                    INSERT dbo.Address(DetailAddressLine, District, CityId, StateOrProvinceId, Postcode, CountryId, Longitude, Latitude, Status)
+                    VALUES(@DetailAddressLine, @District, @CityId, @StateOrProvinceId, @Postcode, @CountryId, @Longitude, @Latitude, 1)
+                    SET @addressId = SCOPE_IDENTITY();
+                    INSERT dbo.Client([Name], IdentityCode, IndustryId, AddressId, GroupId, InvoiceRegisterNumber, CRMReference, FinanceReference, Department, Status,
+                                        Description, Modifier, Version, VersionTime, SecurityKey, NeedNotification, NotificationProviderCodeId, Title, SecurityAlgorithm,
+                                        EmailSenderName, EmailSenderAddress, VoucherIssuerId, MediaLibraryId, SMSSenderName, EmailHeaderMId, EmailFooterMId, ApplyEmailSubject,
+                                        CanIssue, SubURL, BannerMediaLibraryId, MandatoryAutoBilling, SmsProviderCode, EmailProviderCode, SmsEntityId, Memo, SalesEmail, BusinessTypeId,
+                                        ContactName, ContactEmail, ContactPhone)
+                            VALUES (@ClientName, @IdentityCode, null, @addressId, null, @InvoiceRegisterNumber, @CRMReference, @FinanceReference, null, @Status,
+                                        null, @Modifier, 1, GETDATE(), @SecurityKey, @NeedNotification, @NotificationProviderCodeId_SQL, @InvoiceTitle, @SecurityAlgorithm,
+                                        @EmailSenderName, @EmailSenderAddress, @VoucherIssuerId, @LogoMediaId, @SMSSenderName, null, null, @ApplyEmailSubject,
+                                        @CanIssue, @SubURL, @BannerMediaId, @MandatoryAutoBilling, @SMSProviderCode, @EmailProviderCode, @SmsEntityId, @Memo, @SalesEmail, @BusinessTypeId,
+                                        @ContactName, @ContactEmail, @ContactPhone)
+                    SET IDENTITY_INSERT dbo.Client ON;
+
+                    INSERT INTO TXCClientMapping SELECT Id, @TXCTenantId, @ClientId FROM Client WHERE IdentityCode = @IdentityCode
+                    ";
+
+                using (var connection = new SqlConnection(MOConnectionString))
+                {
+                    connection.Open();
+                    int affectedRows = connection.Execute(SQL, content);
+                    
+                    return affectedRows > 0;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }

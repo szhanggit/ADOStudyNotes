@@ -1,0 +1,5 @@
+﻿Install-Package Dapper
+Install-Package Swashbuckle.AspNetCore
+Install-Package Swashbuckle.AspNetCore.Swagger
+http://localhost:26856/swagger/index.html
+https://localhost:44339/swagger/index.html

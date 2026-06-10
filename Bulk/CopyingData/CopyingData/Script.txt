@@ -1,0 +1,28 @@
+﻿Create table Departments2
+(
+     ID int primary key identity,
+     Name nvarchar(50),
+     Location nvarchar(50)
+)
+GO
+
+Create table Employees2
+(
+     ID int primary key identity,
+     Name nvarchar(50),
+     Gender nvarchar(50),
+     DepartmentId int foreign key references Departments2(Id)
+)
+GO
+
+Insert into Departments2 values ('IT', 'New York')
+Insert into Departments2 values ('HR', 'London')
+Insert into Departments2 values ('Payroll', 'Muumbai')
+GO
+
+Insert into Employees2 values ('Mark', 'Male', 1)
+Insert into Employees2 values ('John', 'Male', 1)
+Insert into Employees2 values ('Mary', 'Female', 2)
+Insert into Employees2 values ('Steve', 'Male', 2)
+Insert into Employees2 values ('Ben', 'Male', 3)
+GO
