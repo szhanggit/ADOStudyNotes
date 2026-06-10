@@ -1,0 +1,22 @@
+﻿Create table tblProductInventory3 
+(
+ ProductId int identity primary key,
+ ProductName nvarchar(50),
+ UnitPrice int
+)
+
+Insert into tblProductInventory3 values('iPhone',350)
+Insert into tblProductInventory3 values('Apple Laptops',1250)
+Insert into tblProductInventory3 values('Books',110)
+Insert into tblProductInventory3 values('Acer Laptops',1150)
+Insert into tblProductInventory3 values('iPads',450)
+
+Create table tblProductCategories3
+(
+ CategoryId int identity primary key,
+ CategoryName nvarchar(50),
+)
+
+Insert into tblProductCategories3 values ('Electronics')
+Insert into tblProductCategories3 values ('Sports')
+Insert into tblProductCategories3 values ('Kitchen')

@@ -1,0 +1,2 @@
+https://csharp-video-tutorials.blogspot.com/2015/08/handling-deadlocks-in-adonet.html	(Dead Lock)
+

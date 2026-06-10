@@ -1,0 +1,1 @@
+﻿delete from [txc_staging_tenant_tw].[client].[tb_cbi_client_basic_information] where client_name = 'SpecFlowCreateClient'

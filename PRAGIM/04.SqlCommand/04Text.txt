@@ -1,0 +1,6 @@
+https://csharp-video-tutorials.blogspot.com/2012/10/sqlcommand-in-adonet-part-4.html
+
+The following are the most commonly used methods of the SqlCommand class.
+ExecuteReader - Use when the T-SQL statement returns more than a single value. For example, if the query returns rows of data.
+ExecuteNonQuery - Use when you want to perform an Insert, Update or Delete operation
+ExecuteScalar - Use when the query returns a single(scalar) value. For example, queries that return the total number of rows in a table.

@@ -1,0 +1,6 @@
+Create procedure spGetProductInventory 
+as
+Begin
+ Select ProductId, ProductName, UnitPrice 
+ from tblProductInventory
+End

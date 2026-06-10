@@ -1,0 +1,5 @@
+BatchSize property - Specifies the number of rows in a batch that will be copied to the destination table. The BatchSize property is very important as the performance of data transfer depends on it. The default batch size is 1. In the example below, BatchSize is set to 10000. This means once the reader has read 10000 rows they will be sent to the database as a single batch to perform the bulk copy operation.
+
+NotifyAfter property - Defines the number of rows to be processed before raising SqlRowsCopied event. In the example below, NotifyAfter property is set to 5000. This means once every 5000 rows are copied to the destination table SqlRowsCopied event is raised.
+
+SqlRowsCopied event - This event is raised every time the number of rows specified by NotifyAfter property are processed. This event is useful for reporting the progress of the data transfer.

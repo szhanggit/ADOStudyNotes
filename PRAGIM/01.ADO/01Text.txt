@@ -1,0 +1,37 @@
+https://csharp-video-tutorials.blogspot.com/2012/10/what-is-adonet-part-1.html
+
+ADO stands for Microsoft ActiveX Data Objects. 
+ .NET data provider for SQL Server is System.Data.SqlClient.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

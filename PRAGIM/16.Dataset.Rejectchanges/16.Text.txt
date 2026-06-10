@@ -1,0 +1,21 @@
+https://csharp-video-tutorials.blogspot.com/2013/10/part-16-datasetrejectchanges-and.html
+
+To understand AcceptChanges() and RejectChanges() methods better, we need to understand Row States and Row Versions.
+
+Every DataRow that is present in DataTable of a DataSet has RowState property. Please check the following MSDN link, for different values of RowState property and their description. Different DataRowVersion enumeration values and their description is also present.
+http://msdn.microsoft.com/en-us/library/ww3k31w0.aspx
+
+HasVersion() method can be used to check if a row has got a specific DataRowVersion.
+DataRow.HasVersion(DataRowVersion.Original)
+
+When we call DataAdapter.Fill() method, data is loaded into the DataSet and the RowState of all the rows will be Unchanged. When we edit a row the row state becomes Modified. If we delete a row, the row state becomes Deleted. At this point with in the DataSet, we have got Unchanged, Deleted and Modified rows. If we then invoke, DataAdapter.Update() method, based on the RowState, respective INSERT, UPDATE and DELETE commands are executed against the underlying database table and AcceptChanges() is called automatically. 
+
+When AcceptChanges() is invoked RowState property of each DataRow changes. Added and Modified rows become Unchanged, and Deleted rows are removed.
+
+When RejectChanges() is invoked RowState property of each DataRow changes. Added rows are removed. Modified and Deleted rows becomes Unchanged.
+
+Both AcceptChanges() and RejectChanges() methods can be invoked at the following levels
+1. At the DataSet level - When invoked at the DataSet level, they get called automatically on each DataTable with in the DataSet, and on each DataRow within each DataTable.
+2. At the DataTable level - When invoked at the DataTable level, they get called automatically on each DataRow within each DataTable.
+3. At the DataRow level - Gets called only for the row, on which it is invoked.
+

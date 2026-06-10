@@ -1,0 +1,9 @@
+﻿Create Procedure spGetProductsByName
+@ProductName nvarchar(50)
+as
+Begin
+ Select * from tblProductInventory 
+ where ProductName like @ProductName + '%'
+End
+
+Execute spGetProductsByName 'ip'

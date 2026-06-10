@@ -1,0 +1,1 @@
+﻿delete from [dbo].[tb_p_program] where name = 'SpecflowCreateProgram'

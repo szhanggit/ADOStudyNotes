@@ -1,0 +1,12 @@
+﻿Create table tblProductInventory2 
+(
+ ProductId int identity primary key,
+ ProductName nvarchar(50),
+ UnitPrice int
+)
+
+Insert into tblProductInventory2 values('iPhone',350)
+Insert into tblProductInventory2 values('Apple Laptops',1250)
+Insert into tblProductInventory2 values('Books',110)
+Insert into tblProductInventory2 values('Acer Laptops',1150)
+Insert into tblProductInventory2 values('iPads',450)

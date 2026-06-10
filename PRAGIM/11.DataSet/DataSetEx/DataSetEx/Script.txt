@@ -1,0 +1,9 @@
+﻿Create procedure spGetProductAndCategoriesData
+as
+Begin
+ Select ProductId, ProductName, UnitPrice 
+ from tblProductInventory3 with(nolock)
+
+ Select CategoryId, CategoryName
+ from tblProductCategories3 with(nolock)
+End

@@ -1,0 +1,15 @@
+﻿Create procedure spGetProductInventory 
+as
+Begin
+ Select ProductId, ProductName, UnitPrice 
+ from tblProductInventory3 with(nolock)
+End
+
+Create procedure spGetProductInventoryById
+@ProductId int
+as
+Begin
+ Select ProductId, ProductName, UnitPrice 
+ from tblProductInventory3 with(nolock)
+ where ProductId = @ProductId
+End

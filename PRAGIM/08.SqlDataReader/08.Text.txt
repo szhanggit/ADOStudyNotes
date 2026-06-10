@@ -1,0 +1,14 @@
+SqlDataReader reads data in the most efficient manner possible. SqlDataReader is read-only and forward only, 
+meaning once you read a record and go to the next record, there is no way to go back to the previous record.
+
+
+
+
+
+
+
+
+
+
+
+

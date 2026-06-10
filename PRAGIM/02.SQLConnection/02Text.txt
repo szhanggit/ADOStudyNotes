@@ -1,0 +1,25 @@
+https://csharp-video-tutorials.blogspot.com/2012/10/sqlconnection-in-adonet-part-2.html
+
+The "data source" is the name or IP Address of the SQL Server that we want to connect to. 
+If you are working with a local instance of sql server, you can just specify DOT(.). 
+If the server is on a network, then use Name or IP address.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

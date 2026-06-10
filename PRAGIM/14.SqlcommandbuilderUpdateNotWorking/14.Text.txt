@@ -1,0 +1,8 @@
+https://csharp-video-tutorials.blogspot.com/2013/10/part-14-sqlcommandbuilder-update-not.html
+
+Two common reasons why SqlDataAdapter.Update does not work
+1. SqlCommandBuilder object not associated with SqlDataAdapter object. Without this association SqlCommandBuilder object does not know how to generate INSERT, UPDATE and DELETE statements.
+SqlCommandBuilder builder = new SqlCommandBuilder(dataAdapter);
+If the above line is not present in your code, SqlDataAdapter.Update() method will throw an exception - Update requires a valid UpdateCommand when passed DataRow collection with modified rows.
+
+2. The SelectCommand that is associated with SqlDataAdapter, does not return atleast one primary key or unique column. If this is the case you will get an exception - Dynamic SQL generation for the UpdateCommand is not supported against a SelectCommand that does not return any key column information.

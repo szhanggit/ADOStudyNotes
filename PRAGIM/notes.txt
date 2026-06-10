@@ -1,0 +1,307 @@
+04.SqlCommand:
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("insert into Fitri_test (test) values ('1111');", connection);
+                connection.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+            }
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("update Fitri_test set test = '0000' where test = '1111';", connection);
+                connection.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+            }
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("delete from Fitri_test;", connection);
+                connection.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+            }
+------------------------------------------------------------------------------------------
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("select count(1) from Product with(nolock)", connection);
+                connection.Open();
+                int TotalRows = (int)cmd.ExecuteScalar();
+            }
+------------------------------------------------------------------------------------------
+
+
+06.SqlInjectionPrevention
+
+                SqlCommand cmd = new SqlCommand("Select * from tblProductInventory where ProductName like @ProductName", connection);
+                cmd.Parameters.AddWithValue("@ProductName", ProductNameText + "%");
+
+                SqlCommand cmd = new SqlCommand("spGetProductsByName", connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProductName", ProductNameText + "%");
+
+
+------------------------------------------------------------------------------------------
+
+
+
+07.CallStoreProcedureWithOutputParam
+
+                SqlCommand cmd = new SqlCommand("spAddEmployee", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //Add the input parameters to the command object
+                cmd.Parameters.AddWithValue("@Name", txtEmployeeName);
+                cmd.Parameters.AddWithValue("@Gender", txtGender);
+                cmd.Parameters.AddWithValue("@Salary", txtSalary);
+
+                //Add the output parameter to the command object
+                SqlParameter outPutParameter = new SqlParameter();
+                outPutParameter.ParameterName = "@EmployeeId";
+                outPutParameter.SqlDbType = System.Data.SqlDbType.Int;
+                outPutParameter.Direction = System.Data.ParameterDirection.Output;
+                cmd.Parameters.Add(outPutParameter);
+
+                //Open the connection and execute the query
+                connection.Open();
+                cmd.ExecuteNonQuery();
+
+                string EmployeeId = outPutParameter.Value.ToString();
+
+
+------------------------------------------------------------------------------------------
+
+08.SqlDataReader
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("Select * from tblProductInventory2", connection);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    DataTable sourceTable = new DataTable();
+                    sourceTable.Columns.Add("ID");
+                    sourceTable.Columns.Add("Name");
+                    sourceTable.Columns.Add("Price");
+                    sourceTable.Columns.Add("DiscountedPrice");
+
+                    while (reader.Read())
+                    {
+                        //Calculate the 10% discounted price
+                        int OriginalPrice = Convert.ToInt32(reader["UnitPrice"]);
+                        double DiscountedPrice = OriginalPrice * 0.9;
+
+                        // Populate datatable column values from the SqlDataReader
+                        DataRow datarow = sourceTable.NewRow();
+                        datarow["ID"] = reader["ProductId"];
+                        datarow["Name"] = reader["ProductName"];
+                        datarow["Price"] = OriginalPrice;
+                        datarow["DiscountedPrice"] = DiscountedPrice;
+
+                        //Add the DataRow to the DataTable
+                        sourceTable.Rows.Add(datarow);
+                    }
+                }
+            }
+
+------------------------------------------------------------------------------------------
+
+10.SqlDataAdapter
+
+
+            /*using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                connection.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("select * from tblProductInventory with(nolock);", connection);
+                DataSet dataset = new DataSet();
+                dataAdapter.Fill(dataset);
+
+                GridView1.DataSource = dataset;
+                GridView1.DataBind();
+            }*/
+
+
+            /*using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                connection.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("spGetProductInventory", connection);
+                DataSet dataset = new DataSet();
+                dataAdapter.Fill(dataset);
+
+                GridView1.DataSource = dataset;
+                GridView1.DataBind();
+            }*/
+
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                connection.Open();
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("spGetProductInventoryById", connection);
+                dataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                dataAdapter.SelectCommand.Parameters.AddWithValue("@ProductId", 1);
+                DataSet dataset = new DataSet();
+                dataAdapter.Fill(dataset);
+
+                GridView1.DataSource = dataset;
+                GridView1.DataBind();
+            }
+
+
+
+
+------------------------------------------------------------------------------------------
+
+11.DataSet
+
+
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["MODB"].ConnectionString))
+            {
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("spGetProductAndCategoriesData", connection);
+                dataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                DataSet dataset = new DataSet();
+                dataAdapter.Fill(dataset);
+
+                /*GridViewProducts.DataSource = dataset.Tables[0];
+                GridViewProducts.DataBind();
+
+                GridViewCategories.DataSource = dataset.Tables[1];
+                GridViewCategories.DataBind();*/
+
+                dataset.Tables[0].TableName = "Products";
+                dataset.Tables[1].TableName = "Categories";
+
+                GridViewProducts.DataSource = dataset.Tables["Products"];
+                GridViewProducts.DataBind();
+
+                GridViewCategories.DataSource = dataset.Tables["Categories"];
+                GridViewCategories.DataBind();
+            }
+
+------------------------------------------------------------------------------------------
+
+15.DisconnectedDataAccess
+
+
+            // Set ID column as the primary key
+            dataSet.Tables["Students"].PrimaryKey = new DataColumn[] { dataSet.Tables["Students"].Columns["ID"] };
+            // Store the dataset in Cache
+            Cache.Insert("DATASET", dataSet, null, DateTime.Now.AddHours(24), System.Web.Caching.Cache.NoSlidingExpiration);
+
+dataSet.Tables["Students"].Rows.Find(e.Keys["ID"]).Delete();
+
+            // Find datarow to edit using primay key
+            DataRow dataRow = dataSet.Tables["Students"].Rows.Find(e.Keys["ID"]);
+
+
+
+
+                // Update command to update database table
+                string strUpdateCommand = "Update tblStudents set Name = @Name, Gender = @Gender, TotalMarks = @TotalMarks where Id = @Id";
+                // Create an instance of SqlCommand using the update command created above
+                SqlCommand updateCommand = new SqlCommand(strUpdateCommand, connection);
+                // Specify the parameters of the update command
+                updateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 50, "Name");
+                updateCommand.Parameters.Add("@Gender", SqlDbType.NVarChar, 20, "Gender");
+                updateCommand.Parameters.Add("@TotalMarks", SqlDbType.Int, 0, "TotalMarks");
+                updateCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+                // Associate update command with SqlDataAdapter instance
+                dataAdapter.UpdateCommand = updateCommand;
+
+                // Delete command to delete data from database table
+                string strDeleteCommand = "Delete from tblStudents where Id = @Id";
+                // Create an instance of SqlCommand using the delete command created above
+                SqlCommand deleteCommand = new SqlCommand(strDeleteCommand, connection);
+                // Specify the parameters of the delete command
+                deleteCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+                // Associate delete command with SqlDataAdapter instance
+                dataAdapter.DeleteCommand = deleteCommand;
+
+
+------------------------------------------------------------------------------------------
+
+
+18.LoadXml
+
+
+
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                DataSet ds = new DataSet();
+                ds.ReadXml(@"D:\Study\ADOStudyNotes\PRAGIM\18\LoadXMLData\LoadXMLData\Data.xml");
+
+                DataTable dtDept = ds.Tables["Department"];
+                DataTable dtEmp = ds.Tables["Employee"];
+                con.Open();
+                using (SqlBulkCopy bc = new SqlBulkCopy(con))
+                {
+                    bc.DestinationTableName = "Departments";
+                    bc.ColumnMappings.Add("ID", "ID");
+                    bc.ColumnMappings.Add("Name", "Name");
+                    bc.ColumnMappings.Add("Location", "Location");
+                    bc.WriteToServer(dtDept);
+                }
+
+                using (SqlBulkCopy bc = new SqlBulkCopy(con))
+                {
+                    bc.DestinationTableName = "Employees";
+                    bc.ColumnMappings.Add("ID", "ID");
+                    bc.ColumnMappings.Add("Name", "Name");
+                    bc.ColumnMappings.Add("Gender", "Gender");
+                    bc.ColumnMappings.Add("DepartmentId", "DepartmentId");
+                    bc.WriteToServer(dtEmp);
+                }
+            }
+
+
+------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
