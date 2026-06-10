@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "TXC.Proto.Media";
+
+import "google/protobuf/any.proto";
+
+message ProtoBaseResponse {
+    bool Success = 1;
+    string Message = 2;
+    google.protobuf.Any data = 3;
+}

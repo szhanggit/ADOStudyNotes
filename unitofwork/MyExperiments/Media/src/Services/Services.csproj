@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Command\TenantAdmin\**" />
+    <Compile Remove="Utility\Cache\**" />
+    <EmbeddedResource Remove="Command\TenantAdmin\**" />
+    <EmbeddedResource Remove="Utility\Cache\**" />
+    <None Remove="Command\TenantAdmin\**" />
+    <None Remove="Utility\Cache\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="FluentValidation" Version="11.2.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
+    <PackageReference Include="GraphQL.Client" Version="5.1.0" />
+    <PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="5.1.0" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Cdn" Version="6.1.0" />
+    <PackageReference Include="Microsoft.Azure.Management.Cdn.Fluent" Version="1.38.1" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.22.0" />
+    <PackageReference Include="txc-common-lib" Version="2.0.0" />
+    <PackageReference Include="TXC.Common.Data" Version="2.0.0" />
+    <PackageReference Include="TXC.Common.Logging" Version="2.0.0" />
+    <PackageReference Include="TXC.Common.MessageContract" Version="2.0.0" />
+    <PackageReference Include="TXC.Common.Security" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
+    <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\TXC.Proto.Media\TXC.Proto.Media.csproj">
+      <Aliases></Aliases>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\Queries\" />
+    <Folder Include="Queries\Config\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+</Project>

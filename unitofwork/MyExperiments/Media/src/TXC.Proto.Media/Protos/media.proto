@@ -1,0 +1,97 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "TXC.Proto.Media";
+
+import "common.proto";
+import "google/protobuf/wrappers.proto";
+
+service Media {
+    rpc CreateMedia (CreateMediaRequest) returns (ProtoBaseResponse);
+	rpc ReplaceMedia (ReplaceMediaRequest) returns (ProtoBaseResponse);
+	rpc RenameMedia (RenameMediaRequest) returns (ProtoBaseResponse);
+	rpc GetMediaById (GetMediaByIdRequest) returns (ProtoBaseResponse);
+	rpc GetAllMedia (GetAllMediaRequest) returns (ProtoBaseResponse);
+}
+
+message CreateMediaRequest {
+	int32 type = 1;
+	bytes image = 2;
+	int32 tenant_id = 3;
+	google.protobuf.StringValue tenant_name = 4;
+	google.protobuf.StringValue file_name = 5;
+	google.protobuf.StringValue content_type = 6;
+	google.protobuf.StringValue image_height = 7;
+	google.protobuf.StringValue image_width = 8;
+	google.protobuf.StringValue TX2UserName = 9;
+}
+
+message CreateMediaResponse {
+    int32 media_id = 1;
+}
+
+message ReplaceMediaRequest {
+	int32 media_id = 1;
+	google.protobuf.StringValue blob_name = 2;
+	bytes image = 3;
+	int32 tenant_id = 4;
+	google.protobuf.StringValue tenant_name = 5;
+	google.protobuf.StringValue file_name = 6;
+	google.protobuf.StringValue content_type = 7;
+	google.protobuf.StringValue image_height = 8;
+	google.protobuf.StringValue image_width = 9;
+	google.protobuf.StringValue TX2UserName = 10;
+}
+
+message ReplaceMediaResponse {
+	int32 media_id = 1;
+}
+
+message RenameMediaRequest {
+	int32 media_id = 1;
+	google.protobuf.StringValue key_word = 2;
+	int32 tenant_id = 3;
+	google.protobuf.StringValue TX2UserName = 4;
+}
+
+message RenameMediaResponse {
+	int32 media_id = 1;
+}
+
+message GetMediaByIdRequest {
+	int32 media_id = 1;
+	int32 tenant_id = 2;
+}
+
+message GetMediaByIdResponse {
+	int32 media_id = 1;
+	google.protobuf.StringValue file_name = 2;
+	google.protobuf.StringValue file_content_type = 3;
+	google.protobuf.StringValue key_word = 4;
+	int32 height = 5;
+	int32 width = 6;
+	google.protobuf.StringValue url = 7;
+	google.protobuf.StringValue blob_name = 8;
+	int32 media_category = 9;
+	google.protobuf.StringValue account = 10;
+}
+
+message GetAllMediaRequest {
+    google.protobuf.StringValue search_key = 1;
+	int32 media_category = 2;
+	int32 tenant_id = 3;
+}
+
+message GetAllMediaResponse {
+	repeated GetAllMediaItem media_items = 1;
+}
+
+message GetAllMediaItem {
+	int32 media_id = 1;
+	google.protobuf.StringValue file_name = 2;
+	google.protobuf.StringValue key_word = 3;
+	int32 height = 4;
+	int32 width = 5;
+	google.protobuf.StringValue url = 6;
+	google.protobuf.StringValue blob_name = 7;
+	int32 media_category = 8;
+}

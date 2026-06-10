@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Constant\HeaderConstants.cs" />
+    <Compile Remove="Constant\TelemetryCustomproperty.cs" />
+    <Compile Remove="Dto\BlobMediaInfo.cs" />
+    <Compile Remove="Dto\MediaReplaceDto.cs" />
+    <Compile Remove="Dto\MediaUploadDto.cs" />
+    <Compile Remove="Models\ConfigOptions\AzureStorageConfig.cs" />
+    <Compile Remove="Models\ConfigOptions\RedisConfiguration.cs" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TXC.Common.Domain" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
