@@ -1,0 +1,21 @@
+{
+  "SourceDatabase": "",
+  "DestinationDatabase": "",
+  "FilePath": "C:\\Users\\abernardo\\Desktop\\img",
+  "AzureBlobConnectionString": "",
+  "TenantName": "txc-id",
+  "MainPath": "staging/media-library",
+  "ReuploadTxcEnabled": true,
+  "AccountName": "esgtxcassestored",
+  "BlobNamePrefix": "staging/media-library/",
+  "NodeUrlPrefix": "/txc-id/staging/media-library/",
+  "ForceReplaceImage": true,
+  "KeepSameGuid": true,
+  "TX2ConnectorUrl": "http://localhost:8002/",
+  "TXCAzureStorageUrl": "https://esgtxcassestored.blob.core.windows.net/txc-th/staging/media-library/",
+  "TenantId": 1,
+  "UseExternalUrlFileName": true,
+  "Delay": 1000,
+  "OnlyProcessFileNames": "7862b57a-a17c-44e1-83ab-67402d7ed7af",
+  "OnlyReportMissingFiles": false
+}
