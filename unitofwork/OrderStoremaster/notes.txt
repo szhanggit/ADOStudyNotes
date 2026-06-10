@@ -1,0 +1,10 @@
+https://www.c-sharpcorner.com/article/implementing-unit-of-work-and-repository-pattern-with-dependency-injection-in-n/
+
+
+Schema Execution 
+
+Let's add the migrations and update our Database. Run the below commands one after another in the package manager console, make sure you switch to OrderStore.Repository before executing the commands
+
+    add-migration 'Initial'
+
+    update-database

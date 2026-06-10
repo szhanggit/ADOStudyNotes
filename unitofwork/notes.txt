@@ -1,0 +1,72 @@
+https://enlabsoftware.com/development/how-to-implement-repository-unit-of-work-design-patterns-in-dot-net-core-practical-examples-part-one.html
+
+DalSessionAPI
+Async unit of work. (Good)
+Can get data from database or Excel.
+It is a complete unit of work. (Good)
+There is a Id in unit of work.
+        IDbConnection _connection = null;
+        IDbTransaction _transaction = null;
+        Guid _id = Guid.Empty;
+---------------------------------------------
+Dapper.WebApi-master
+Onion Architecture (Good)
+Not complete unit of work
+Not in the same transaction.
+
+---------------------------------------------
+dapper-unitofwork-main
+It shows true async unit of work. (Good)
+
+---------------------------------------------
+DapperUnitOfWork-master
+Standard and clean.
+It is not async.
+
+
+---------------------------------------------
+OrderStoremaster
+unit of work has both transaction control and repositories. (Good)
+GenericRepository (Good)
+It is based on EF.
+It well uses DI.
+
+---------------------------------------------
+TryUnitOfWork
+Unit of work factory. (Good)
+
+
+---------------------------------------------
+UnitOfWork.BookStore-main
+Complicated
+EF & Dapper
+Mapping
+
+---------------------------------------------
+UowProductAPI
+Unit of work only has repositories.
+DI
+
+
+---------------------------------------------
+async-repository-dotnetcore-webapi-async-repository-end-branch
+async-generic-repository-pattern
+
+
+---------------------------------------------
+RepositoryPatternHybrid
+Hommer
+
+
+
+
+
+
+
+
+
+
+
+
+
+

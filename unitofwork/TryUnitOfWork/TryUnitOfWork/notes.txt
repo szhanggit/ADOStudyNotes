@@ -1,0 +1,10 @@
+﻿https://stackoverflow.com/questions/31298235/how-to-implement-unit-of-work-pattern-with-dapper
+
+https://stackoverflow.com/questions/45860502/dapper-async-and-transaction
+
+
+1. Assign connection string to UnitOfWorkFactory
+2. Assign UnitOfWorkFactory to DbContext
+3. In DbContext calls	1. Initialize SqlConnection object with connection string and make sure that the connection state is open.	(!!!)
+						2. In UnitOfWork, open a transaction. (!!!)
+						3. Initialize ProductRepository.

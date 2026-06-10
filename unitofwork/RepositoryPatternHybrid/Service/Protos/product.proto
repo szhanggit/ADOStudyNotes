@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "Service.Protos";
+
+import "decimal_value.proto";
+import "google/protobuf/wrappers.proto";
+
+
+service Products{
+	rpc Create(UpsertProductRequest) returns (UpsertProductResponse);
+	rpc Update(UpsertProductRequest) returns (UpsertProductResponse);
+	rpc Remove(RemoveProductRequest) returns (RemoveProductResponse);
+}
+
+message ProductEntity{
+	int32 id = 1;
+	google.protobuf.StringValue description = 2;
+	google.protobuf.StringValue unit = 3;
+	DecimalValue price = 4;
+}
+
+message UpsertProductRequest{
+	ProductEntity entity = 1;
+}
+
+message UpsertProductResponse{
+	int32 id = 1;
+}
+
+message RemoveProductRequest{
+	int32 id = 1;
+}
+
+message RemoveProductResponse{
+	bool deleted = 1;
+}

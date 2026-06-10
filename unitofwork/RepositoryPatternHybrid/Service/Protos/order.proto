@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "Service.Protos";
+
+
+import "order_detail.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+
+service Orders {
+	rpc Create(UpsertOrderRequest) returns (UpsertOrderResponse);
+	rpc Update(UpsertOrderRequest) returns (UpsertOrderResponse);
+	rpc Remove(RemoveOrderRequest) returns (RemoveOrderResponse);
+}
+
+
+
+message OrderEntity {
+	int32 id = 1;
+	google.protobuf.StringValue order_number = 2;
+	repeated OrderDetail order_details = 3;
+}
+
+
+
+message UpsertOrderRequest {
+	OrderEntity entity =1;
+}
+
+message UpsertOrderResponse {
+	int32 id = 1;
+}
+
+message RemoveOrderRequest {
+	int32 id = 1;
+}
+
+message RemoveOrderResponse {
+	bool deleted = 1;
+}
