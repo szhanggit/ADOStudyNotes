@@ -1,0 +1,108 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: prod
+  name: media-api 
+  labels:
+    app: media-api
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:      
+      app: media-api
+  template:
+    metadata:
+      labels:
+        app: media-api 
+        tier: backend
+    spec:
+      containers:
+        - name: media-api 
+          image: esgaksacrp.azurecr.io/txc-media-api:$(tag)
+          volumeMounts:
+          - name: esg-prod-secrets-store01-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+          ports:
+          - containerPort: 80
+          - containerPort: 8001
+          - containerPort: 9001
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: Tenant-ConnectionString__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: tenant-connectionstring--defaultconnection
+                  key: tenant-connectionstring--defaultconnection
+            - name: ServiceBus__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: servicebus--connectionstring
+                  key: servicebus--connectionstring
+            - name: ApplicationInsights__InstrumentationKey
+              valueFrom:
+                secretKeyRef:
+                  name: applicationinsights--instrumentationkey
+                  key: applicationinsights--instrumentationkey
+            - name: ShardConfiguration__GlobalShardMapConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: shardconfiguration--globalshardmapconnectionstring
+                  key: shardconfiguration--globalshardmapconnectionstring
+            - name: AzureStorageConfiguration__ConnectionString
+              valueFrom:
+                secretKeyRef:
+                  name: azurestorageconfiguration--connectionstring
+                  key: azurestorageconfiguration--connectionstring
+            - name: CdnConfiguration__ClientId
+              valueFrom:
+                secretKeyRef:
+                  name: cdnconfiguration--clientid
+                  key: cdnconfiguration--clientid
+            - name: CdnConfiguration__ClientSecret
+              valueFrom:
+                secretKeyRef:
+                  name: cdnconfiguration--clientsecret
+                  key: cdnconfiguration--clientsecret
+            - name: TenantDBConnectionString-2
+              valueFrom:
+                secretKeyRef:
+                  name: tenantdbconnectionstring-2
+                  key: tenantdbconnectionstring-2
+            - name: TenantDBConnectionString-5
+              valueFrom:
+                secretKeyRef:
+                  name: tenantdbconnectionstring-5
+                  key: tenantdbconnectionstring-5
+            - name: TenantDBConnectionString-6
+              valueFrom:
+                secretKeyRef:
+                  name: tenantdbconnectionstring-6
+                  key: tenantdbconnectionstring-6
+            - name: TenantDBConnectionString-7
+              valueFrom:
+                secretKeyRef:
+                  name: tenantdbconnectionstring-7
+                  key: tenantdbconnectionstring-7
+            - name: TenantDBConnectionString-9
+              valueFrom:
+                secretKeyRef:
+                  name: tenantdbconnectionstring-9
+                  key: tenantdbconnectionstring-9
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "64Mi"
+            limits:
+              cpu: "500m"
+              memory: "128Mi"
+      restartPolicy: Always
+      volumes:
+      - name: esg-prod-secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "esg-prod-aks-spc"   

@@ -1,0 +1,92 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: uat
+  name: media-api 
+  labels:
+    app: media-api
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:      
+      app: media-api
+  template:
+    metadata:
+      labels:
+        app: media-api 
+        tier: backend
+    spec:
+      containers:
+        - name: media-api 
+          image: esgaksacrd.azurecr.io/txc-media-api:$(tag)
+          volumeMounts:
+          - name: esg-uat-secrets-store01-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+          ports:
+            - containerPort: 8001
+            - containerPort: 9001
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "UAT"
+            - name: UAT-TenantDBConnectionString-1
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-1
+                  key: uat-tenantdbconnectionstring-1
+            - name: UAT-TenantDBConnectionString-2
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-2
+                  key: uat-tenantdbconnectionstring-2
+            - name: UAT-TenantDBConnectionString-3
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-3
+                  key: uat-tenantdbconnectionstring-3
+            - name: UAT-TenantDBConnectionString-4
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-4
+                  key: uat-tenantdbconnectionstring-4
+            - name: UAT-TenantDBConnectionString-5
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-5
+                  key: uat-tenantdbconnectionstring-5
+            - name: UAT-TenantDBConnectionString-6
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-6
+                  key: uat-tenantdbconnectionstring-6
+            - name: UAT-TenantDBConnectionString-7
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-7
+                  key: uat-tenantdbconnectionstring-7
+            - name: UAT-TenantDBConnectionString-8
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-8
+                  key: uat-tenantdbconnectionstring-8
+            - name: UAT-TenantDBConnectionString-9
+              valueFrom:
+                secretKeyRef:
+                  name: uat-tenantdbconnectionstring-9
+                  key: uat-tenantdbconnectionstring-9
+          resources:
+            requests:
+               cpu: "100m"
+               memory: "128Mi"
+            limits:
+               cpu: "110m"
+               memory: "256Mi"
+      restartPolicy: Always
+      volumes:
+      - name: esg-uat-secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "esg-uat-aks-spc"   

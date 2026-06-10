@@ -1,0 +1,92 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: staging
+  name: media-api 
+  labels:
+    app: media-api
+    tier: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:      
+      app: media-api
+  template:
+    metadata:
+      labels:
+        app: media-api 
+        tier: backend
+    spec:
+      containers:
+        - name: media-api 
+          image: esgaksacrd.azurecr.io/txc-media-api:$(tag)
+          volumeMounts:
+          - name: esg-staging-secrets-store01-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+          ports:
+            - containerPort: 8001
+            - containerPort: 9001
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Staging"
+            - name: Staging-TenantDBConnectionString-1
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-1
+                  key: staging-tenantdbconnectionstring-1
+            - name: Staging-TenantDBConnectionString-2
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-2
+                  key: staging-tenantdbconnectionstring-2
+            - name: Staging-TenantDBConnectionString-3
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-3
+                  key: staging-tenantdbconnectionstring-3
+            - name: Staging-TenantDBConnectionString-4
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-4
+                  key: staging-tenantdbconnectionstring-4
+            - name: Staging-TenantDBConnectionString-5
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-5
+                  key: staging-tenantdbconnectionstring-5
+            - name: Staging-TenantDBConnectionString-6
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-6
+                  key: staging-tenantdbconnectionstring-6
+            - name: Staging-TenantDBConnectionString-7
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-7
+                  key: staging-tenantdbconnectionstring-7
+            - name: Staging-TenantDBConnectionString-8
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-8
+                  key: staging-tenantdbconnectionstring-8
+            - name: Staging-TenantDBConnectionString-9
+              valueFrom:
+                secretKeyRef:
+                  name: staging-tenantdbconnectionstring-9
+                  key: staging-tenantdbconnectionstring-9
+          resources:
+            requests:
+               cpu: "100m"
+               memory: "128Mi"
+            limits:
+               cpu: "110m"
+               memory: "256Mi"
+      restartPolicy: Always
+      volumes:
+      - name: esg-staging-secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "esg-staging-aks-spc"   

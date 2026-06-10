@@ -1,0 +1,16 @@
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+  name: kv-pod-access-id-dev
+spec:
+  type: 0
+  resourceID: /subscriptions/147f51af-f7eb-480d-ad44-85c141b07318/resourcegroups/apacproduct-aks-dev-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/kv-pod-access-id-dev
+  clientID: 5f12dcde-fec9-4139-b852-36f19ef37c6d
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+  name: kv-pod-access-id-dev-azure-identity-binding
+spec:
+  azureIdentity: kv-pod-access-id-dev
+  selector: kv-pod-access-id-dev

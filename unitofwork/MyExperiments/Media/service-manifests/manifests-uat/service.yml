@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: media-api-svc
+    namespace: uat
+    labels:
+        app: media-api
+        tier: backend
+spec:
+    type: ClusterIP
+    ports:
+        - name: "8001"
+          port: 8001
+          targetPort: 8001
+        - name: "9001"
+          port: 9001
+          targetPort: 9001
+    selector:
+        app: media-api
+        tier: backend
