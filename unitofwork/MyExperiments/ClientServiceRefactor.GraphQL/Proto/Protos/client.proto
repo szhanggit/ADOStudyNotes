@@ -1,0 +1,198 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "TXC.Proto.Client";
+
+import "common.proto";
+import "google/protobuf/wrappers.proto";
+
+service Client {
+  rpc GetClientList (GetClientListRequest) returns (ProtoBaseResponse);
+  rpc CreateClient (CreateClientRequest) returns (CreateClientResponse);
+  rpc UpdateClient (UpdateClientRequest) returns (UpdateClientResponse);
+
+  rpc CreateBXPClient (CreateBXPClientRequest) returns (CreateBXPClientResponse);
+}
+
+message GetClientListRequest{
+    int32 tenant_id = 1;
+    google.protobuf.StringValue tenant_name = 2;
+    google.protobuf.StringValue search_keyword = 3;
+    google.protobuf.Int32Value client_id = 4;
+    google.protobuf.Int32Value page_number = 5;
+    google.protobuf.Int32Value row_count = 6;
+}
+
+message GetClientListResponse{
+    repeated ClientListItem client_dtos = 1;
+    int32 total_count = 2;
+}
+
+message ClientListItem {
+    int32 client_id = 1;
+    google.protobuf.StringValue client_name = 2;
+    google.protobuf.StringValue identity_code = 3;
+    google.protobuf.StringValue invoice_register_number = 4;
+    google.protobuf.Int32Value voucher_issuer_id = 5;
+    google.protobuf.Int32Value business_type_id = 6;
+    int32 status = 7;
+    int32 security_algorithm = 8;
+    google.protobuf.StringValue security_key = 9;
+    bool need_notification = 10;
+    google.protobuf.Int32Value notification_provider_code_id = 11;
+    google.protobuf.Int32Value logo_media_id = 12;
+    google.protobuf.Int32Value banner_media_id = 13;
+    google.protobuf.Int32Value email_header_media_id = 14;
+    google.protobuf.Int32Value email_footer_media_id = 15;
+    bool can_issue = 16;
+    bool mandatory_auto_billing = 17;
+    google.protobuf.StringValue invoice_title = 18;
+    google.protobuf.StringValue sub_url = 19;
+    google.protobuf.StringValue email_provider_code = 20;
+    google.protobuf.StringValue email_sender_name = 21;
+    google.protobuf.StringValue email_sender_address = 22;
+    bool apply_email_subject = 23;
+    google.protobuf.StringValue sms_provider_code = 24;
+    google.protobuf.StringValue sms_sender_name = 25;
+    google.protobuf.StringValue sms_entity_id = 26;
+    google.protobuf.StringValue sales_email = 27;
+    google.protobuf.StringValue contact_name = 28;
+    google.protobuf.StringValue contact_email = 29;
+    google.protobuf.StringValue contact_phone = 30;
+    google.protobuf.StringValue memo = 31;
+    google.protobuf.StringValue description = 32;
+    google.protobuf.StringValue DetailAddressLine = 33;
+    google.protobuf.StringValue District = 34;
+    google.protobuf.Int32Value CityId = 35;
+    google.protobuf.Int32Value StateOrProvinceId = 36;
+    google.protobuf.StringValue Postcode = 37;
+    google.protobuf.Int32Value CountryId = 38;
+    google.protobuf.FloatValue Longitude = 39;
+    google.protobuf.FloatValue Latitude = 40;
+    int32 AddressStatus = 41;
+}
+
+message CreateClientRequest{
+    int32 tenant_id = 1;
+    google.protobuf.StringValue tenant_name = 2;
+    google.protobuf.StringValue client_name = 3;
+    google.protobuf.StringValue invoice_register_number = 4;
+    google.protobuf.Int32Value voucher_issuer_id = 5;
+    google.protobuf.Int32Value business_type_id = 6;
+    int32 status = 7;
+    int32 security_algorithm = 8;
+    google.protobuf.StringValue security_key = 9;
+    bool need_notification = 10;
+    google.protobuf.Int32Value notification_provider_code_id = 11;
+    google.protobuf.Int32Value logo_media_id = 12;
+    google.protobuf.Int32Value banner_media_id = 13;
+    google.protobuf.Int32Value email_header_media_id = 14;
+    google.protobuf.Int32Value email_footer_media_id = 15;
+    bool can_issue = 16;
+    google.protobuf.BoolValue mandatory_auto_billing = 17;
+    google.protobuf.StringValue invoice_title = 18;
+    google.protobuf.StringValue sub_url = 19;
+    google.protobuf.StringValue email_provider_code = 20;
+    google.protobuf.StringValue email_sender_name = 21;
+    google.protobuf.StringValue email_sender_address = 22;
+    google.protobuf.BoolValue apply_email_subject = 23;
+    google.protobuf.StringValue sms_provider_code = 24;
+    google.protobuf.StringValue sms_sender_name = 25;
+    google.protobuf.StringValue sms_entity_id = 26;
+    google.protobuf.StringValue sales_email = 27;
+    google.protobuf.StringValue contact_name = 28;
+    google.protobuf.StringValue contact_email = 29;
+    google.protobuf.StringValue contact_phone = 30;
+    google.protobuf.StringValue memo = 31;
+    google.protobuf.StringValue description = 32;
+    google.protobuf.StringValue TX2UserName = 33;
+    google.protobuf.StringValue DetailAddressLine = 34;
+    google.protobuf.StringValue District = 35;
+    google.protobuf.Int32Value CityId = 36;
+    google.protobuf.Int32Value StateOrProvinceId = 37;
+    google.protobuf.StringValue Postcode = 38;
+    google.protobuf.Int32Value CountryId = 39;
+    google.protobuf.FloatValue Longitude = 40;
+    google.protobuf.FloatValue Latitude = 41;
+    google.protobuf.Int32Value AddressStatus = 42;
+}
+
+message CreateClientResponse {
+    bool Success = 1;
+    google.protobuf.StringValue Message = 2;
+    int32 data = 3;
+}
+
+message UpdateClientRequest {
+    int32 tenant_id = 1;
+    google.protobuf.StringValue tenant_name = 2;
+    int32 client_id = 3;
+    google.protobuf.StringValue client_name = 4;
+    google.protobuf.StringValue identity_code = 5;
+    google.protobuf.StringValue invoice_register_number = 6;
+    google.protobuf.Int32Value voucher_issuer_id = 7;
+    google.protobuf.Int32Value business_type_id = 8;
+    int32 status = 9;
+    int32 security_algorithm = 10;
+    google.protobuf.StringValue security_key = 11;
+    bool need_notification = 12;
+    google.protobuf.Int32Value notification_provider_code_id = 13;
+    google.protobuf.Int32Value logo_media_id = 14;
+    google.protobuf.Int32Value banner_media_id = 15;
+    google.protobuf.Int32Value email_header_media_id = 16;
+    google.protobuf.Int32Value email_footer_media_id = 17;
+    bool can_issue = 18;
+    google.protobuf.BoolValue mandatory_auto_billing = 19;
+    google.protobuf.StringValue invoice_title = 20;
+    google.protobuf.StringValue sub_url = 21;
+    google.protobuf.StringValue email_provider_code = 22;
+    google.protobuf.StringValue email_sender_name = 23;
+    google.protobuf.StringValue email_sender_address = 24;
+    google.protobuf.BoolValue apply_email_subject = 25;
+    google.protobuf.StringValue sms_provider_code = 26;
+    google.protobuf.StringValue sms_sender_name = 27;
+    google.protobuf.StringValue sms_entity_id = 28;
+    google.protobuf.StringValue sales_email = 29;
+    google.protobuf.StringValue contact_name = 30;
+    google.protobuf.StringValue contact_email = 31;
+    google.protobuf.StringValue contact_phone = 32;
+    google.protobuf.StringValue memo = 33;
+    google.protobuf.StringValue description = 34;
+    google.protobuf.StringValue TX2UserName = 35;
+    google.protobuf.StringValue DetailAddressLine = 36;
+    google.protobuf.StringValue District = 37;
+    google.protobuf.Int32Value CityId = 38;
+    google.protobuf.Int32Value StateOrProvinceId = 39;
+    google.protobuf.StringValue Postcode = 40;
+    google.protobuf.Int32Value CountryId = 41;
+    google.protobuf.FloatValue Longitude = 42;
+    google.protobuf.FloatValue Latitude = 43;
+    int32 AddressStatus = 44;
+}
+
+message UpdateClientResponse {
+    bool Success = 1;
+    google.protobuf.StringValue Message = 2;
+    int32 data = 3;
+}
+
+message CreateBXPClientRequest {
+    int32 tenant_id = 1;
+    google.protobuf.StringValue tenant_name = 2;
+    google.protobuf.StringValue client_name = 3;
+    google.protobuf.StringValue invoice_register_number = 4;
+    google.protobuf.StringValue invoice_title = 5;
+    google.protobuf.Int32Value CountryId = 6;
+    google.protobuf.Int32Value StateOrProvinceId = 7;
+    google.protobuf.Int32Value CityId = 8;
+    google.protobuf.StringValue Postcode = 9;
+    google.protobuf.StringValue District = 10;
+    google.protobuf.StringValue DetailAddressLine = 11;
+    google.protobuf.FloatValue Longitude = 12;
+    google.protobuf.FloatValue Latitude = 13;
+}
+
+message CreateBXPClientResponse {
+    bool Success = 1;
+    google.protobuf.StringValue Message = 2;
+    int32 data = 3;
+}

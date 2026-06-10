@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain.Models
+{
+    public class GenerateClientIdentityCodeModel
+    {
+        public string SequenceName { get; set; }
+        public bool IsFixReturnLength { get; set; }
+        public byte ReturnLength { get; set; }
+        public char PaddingCharacter { get; set; }
+    }
+}

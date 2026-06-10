@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Command\**" />
+    <Compile Remove="Queries\**" />
+    <EmbeddedResource Remove="Command\**" />
+    <EmbeddedResource Remove="Queries\**" />
+    <None Remove="Command\**" />
+    <None Remove="Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.10.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="FluentValidation" Version="11.2.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="txc-common-lib" Version="2.0.0.3" />
+    <PackageReference Include="TXC.Common.Data" Version="2.0.0.1" />
+    <PackageReference Include="TXC.Common.Logging" Version="2.0.0.1" />
+    <PackageReference Include="TXC.Common.MessageContract" Version="2.0.0.7" />
+    <PackageReference Include="TXC.Common.Security" Version="2.0.0.0" />
+    <PackageReference Include="TXC.Proto.Credit" Version="2.0.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Proto\Proto.csproj" />
+    <ProjectReference Include="..\Repository\Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Message\" />
+    <Folder Include="Utility\AzureStorage\" />
+  </ItemGroup>
+
+</Project>

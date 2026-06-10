@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Request\**" />
+    <EmbeddedResource Remove="Models\Request\**" />
+    <None Remove="Models\Request\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\ClientEF.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TXC.Common.Domain" Version="2.0.0" />
+    <PackageReference Include="TXC.Proto.Credit" Version="2.0.0.4" />
+	<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+	<PackageReference Include="DapperExtensions" Version="1.7.0" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SpecFlow.Test": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

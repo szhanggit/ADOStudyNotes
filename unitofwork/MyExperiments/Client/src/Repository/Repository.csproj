@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="txc-common-lib" Version="2.0.0.3" />
+	<PackageReference Include="TXC.Common.Data" Version="2.0.0.1" />
+	<PackageReference Include="TXC.Common.Domain" Version="2.0.0.1" />
+	<PackageReference Include="TXC.Common.Logging" Version="2.0.0.1" />
+	<PackageReference Include="TXC.Common.MessageContract" Version="2.0.0.7" />
+	<PackageReference Include="TXC.Common.Security" Version="2.0.0.0" />
+	<PackageReference Include="TXC.Common.Services" Version="2.0.0.0" />
+	<PackageReference Include="TXC.Common.CacheManagement" Version="2.0.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Proto\Proto.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
+  </ItemGroup>	
+	
+</Project>

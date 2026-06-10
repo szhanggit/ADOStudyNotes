@@ -1,0 +1,87 @@
+﻿using FluentValidation.TestHelper;
+using Services.Validators;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TXC.Proto.Client;
+using Xunit;
+
+namespace Services.Tests
+{
+    public class CreateClientRequestValidatorTest
+    {
+        [Fact]
+        public void HappyPath()
+        {
+            CreateClientRequest _createClientRequest = new CreateClientRequest
+            {
+                TenantId = 7,
+                TenantName = "TW",
+                ClientName = "SevenEleven",
+                InvoiceRegisterNumber = "InvoiceRegisterNumber",
+                Status = 1,
+                SecurityAlgorithm = 1,
+                SmsEntityId = "12",
+                ContactName = "123",
+                ContactPhone = "123",
+                SecurityKey = "kljshjfklsjdklfj",
+                NeedNotification = true,
+                CanIssue = true,
+                CountryId = 1,
+                StateOrProvinceId = 1,
+                CityId = 1,
+                AddressStatus = 1
+            };
+
+            var validator = new CreateClientRequestValidator();
+            var result = validator.TestValidate(_createClientRequest);
+            Assert.True(result.IsValid);
+        }
+
+        [Fact]
+        public void Should_Have_Error_When_SubUrl_Have8Characters()
+        {
+            CreateClientRequest _createClientRequest = new CreateClientRequest
+            {
+                TenantId = 7,
+                TenantName = "TW",
+                ClientName = "SevenEleven",
+                InvoiceRegisterNumber = "InvoiceRegisterNumber",
+                Status = 1,
+                SecurityAlgorithm = 1,
+                SecurityKey = "kljshjfklsjdklfj",
+                NeedNotification = true,
+                CanIssue = true,
+                SubUrl = "http://www.edenred.com",
+            };
+
+            var validator = new CreateClientRequestValidator();
+            var result = validator.TestValidate(_createClientRequest);
+            result.ShouldHaveValidationErrorFor(p => p.SubUrl);
+        }
+
+        [Fact]
+        public void Should_Have_Error_When_SalesEmail_InvalidEmailFormat()
+        {
+            CreateClientRequest _createClientRequest = new CreateClientRequest
+            {
+                TenantId = 7,
+                TenantName = "TW",
+                ClientName = "SevenEleven",
+                InvoiceRegisterNumber = "InvoiceRegisterNumber",
+                Status = 1,
+                SecurityAlgorithm = 1,
+                SecurityKey = "kljshjfklsjdklfj",
+                NeedNotification = true,
+                CanIssue = true,
+                SalesEmail = "asdfasdfasdf"
+            };
+
+            var validator = new CreateClientRequestValidator();
+            var result = validator.TestValidate(_createClientRequest);
+            result.ShouldHaveValidationErrorFor(p => p.SalesEmail);
+        }
+    }
+}
