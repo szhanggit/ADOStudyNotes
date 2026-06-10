@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Z.Dapper.Plus" Version="4.0.35" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.11" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.11" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+</Project>
