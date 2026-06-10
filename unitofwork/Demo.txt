@@ -1,0 +1,127 @@
+Demo:
+
+https://enlabsoftware.com/development/how-to-implement-repository-unit-of-work-design-patterns-in-dot-net-core-practical-examples-part-one.html
+
+
+
+No Repository: (It is what we have in the very beginning)
+Controller, EF or Dapper or ADO, Database, they are tightly coupled with each other.
+1. Hard to mock EF or Dapper method so that cannot do unit testing. In this case only integration testing works. It is ok when the app is small. What if it is as big as send voucher in TX2. That will be super hard to troubleshooting.
+2. What if one day we want to change EF to be Dapper? It will cause many bugs.
+
+Repository: (It is what we have right now)
+Group all of the related operations together in a clsss. For example, group all of product related operations together in ProductRepository. 
+Group all of client related operations together in ClientRepository.
+1. Easy to mock EF or Dapper or ADO operations so that we can write unit test.
+2. It is easy to change technology. like changing from ADO to Dapper.
+
+
+Repository + UnitOfWork
+1. Unit of work is like a facard pattern. 
+With out unit of work, you need to inject many repositories into controller.
+With unit of work, you just need to inject an unit of work object so that you can access all of the repositories throught the single unit of work object.
+2. Unit of work also group operations together in one transaction which shall either success all together or fail together.
+For example there is an operation called create clients. In order to create a client, need to have three operations.
+1. In ClientRepository, generate a client code. 2. In AddressRepository, generate an address and get addressId. 3. In ClientRepository, generate a client with the new generated client code and address id.
+If any of these three opreations failed, everything shall be rolled back.
+We must make sure that all of these three operation are successfully completed, then a client shall be created in the database. 
+
+Demo 18364_ClientServiceRefactor.V3
+1. Obsolete all of WebApi part and make the whole project as a pure gRPC app.
+2. Change the naming of some folders to make it much clearer.
+3. Apply repository + unit of work pattern.
+
+D:\git\TXC-MicroServices\MicroServices\Client\src\Service\gRPCController\ClientService.cs
+_createClientService.CreateClient(request);
+D:\git\TXC-MicroServices\MicroServices\Client\src\Service\BusinessLogic\CreateClientService.cs
+Tuple<int?, string> _insertedResult = await _clientOperation.InsertClientAsync(client, generateClientIdentityCode, _dbConnection);
+_operationSession is an unit if work object.
+You can get ClientRepository and create a client code. Then get AddressRepository to create an address. Finally get ClientRepository again to create a client.
+At the end, commit all of the operations, in addition, dispose the unit of work object in the final block.
+
+
+D:\git\TXC-MicroServices\MicroServices\Client\src\Repository\ClientBasicInfoRepository.cs
+If we go to open a repository, you will find it is filled with inline sql.
+
+So far the databasse we use is sql server. Sql server cannot conquer one issue which is data sync amount micro services. Do you remember the sync issues between Adora and Move?
+Cosmos db will hanle it perfectly, because it is event driven database. So maybe one day we will move to cosmos db.
+Therefore, we need to decouple the relationship between service and database. The way to decouple it is to obsolete all of the inline sql.
+So far we choose Dapper Plus which does not require any inline sql so that the relationship between service and database can be decoupled.
+When we move to Cosmos database one day, we will obsolete Dapper Plus and use something else which will be compatible with Cosmos database.
+
+
+Here I would like to demo dapper plus in repository and unit of work.
+D:\Study\ADOStudyNotes\unitofwork\DapperPlus\RepositoryPatternHybrid\RepositoryDapper\Context.cs
+DapperPlusContext
+
+D:\Study\ADOStudyNotes\unitofwork\DapperPlus\RepositoryPatternHybrid\RepositoryPatternHybrid\Controllers\OrdersController.cs (It is like gateway)
+var res = await _cli.RemoveAsync(new RemoveOrderRequest { Id = id });
+
+D:\Study\ADOStudyNotes\unitofwork\DapperPlus\RepositoryPatternHybrid\Service\Services\OrderService.cs
+Task<RemoveOrderResponse> Remove(RemoveOrderRequest request, ServerCallContext context)
+
+await _unit.Complete();
+
+https://dapper-plus.net
+
+
+
+https://dapper-plus.net/getting-started-mapping
+https://dotnetfiddle.net/WHSCTW
+https://dotnetfiddle.net/BbBQ2F
+
+
+
+
+
+
+
+Right now I am working on code refactoring on all of the existing apis.
+Let us take client service as an example.
+Now we need to work on client service refactoring. 
+At the beginning, its structure mixed with webapi and grpc. It does not have unit of work and repository pattern. It is also tightly coupled with sql serve, because sql query is tightly nested in the c# code.
+
+After refactoring, all of the webapi code will be delelted. Unit of work and repository pattern will be applied. 
+We also will use Dapper plus to replace inline sql and stored procedures to decouple the relationship between app and database so that one day we can easily adopt other database, like cosmos event driven database.
+
+1. However I am not sure if we also need to add one more factors in the refactoring plan, which is if the app shall be adapt to GraphQL? and how?
+2. Where can I find existing GraphQL projects?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
