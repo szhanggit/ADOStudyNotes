@@ -1,0 +1,30 @@
+variables:
+  # DB Migration
+- name: folderPath
+  value: 'MicroServices/Client/src/Database'
+- name: flywayDBSchema
+  value: 'client'
+  # Container registry service connection established during pipeline creation
+- name: imageRepository
+  value: 'txc-client-api'
+  # Build
+- name: dockerfilePath
+  value: 'MicroServices/Client/src/Dockerfile'
+- name: protoProjectPath
+  value: 'MicroServices/Client/src/Proto/Proto.csproj'
+- name: unitTestProjectPath
+  value: 'MicroServices/Client/src/Services.Tests/Services.Tests.csproj'
+  # Conditionals
+- name: updateTenantDB
+  value: 'true'
+  # Manifests
+- name: manifestsDevPath
+  value: 'MicroServices/Client/service-manifests/manifests-dev'
+- name: manifestsStagingPath
+  value: 'MicroServices/Client/service-manifests/manifests-sit'
+- name: manifestsUATPath
+  value: 'MicroServices/Client/service-manifests/manifests-uat'
+- name: manifestsPerfPath
+  value: 'MicroServices/Client/service-manifests/manifests-perf'
+- name: manifestsProdPath
+  value: 'MicroServices/Client/service-manifests/manifests-prod'
