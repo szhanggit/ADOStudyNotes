@@ -1,0 +1,33 @@
+	SELECT p.ProductCode, p.EmailTemplateVersionId, p.ProductEmailTemplateVersionId FROM dbo.Product p WITH(NOLOCK) WHERE p.ProductCode = 'TTN003'
+	SELECT p.ProductCode, petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductEmailTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductEmailTemplateVersionId = petvs.ProductEmailTemplateVersionId
+	INNER JOIN dbo.EmailTemplateVersion etv WITH(NOLOCK) ON petvs.EmailTemplateVersionId = etv.Id
+	INNER JOIN dbo.EmailTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.EmailTemplateVersionId IS null and p.ProductEmailTemplateVersionId IS NOT NULL AND p.ProductCode = 'TTN003'
+
+	UPDATE ProductEmailTemplateVersionSet
+	SET EmailTemplateVersionId = 1050
+	WHERE id = 641
+
+	SELECT p.ProductCode, petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductSLMSTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductSLMSTemplateVersionId = petvs.ProductSLMSTemplateVersionId
+	INNER JOIN dbo.SLMSTemplateVersion etv WITH(NOLOCK) ON petvs.SLMSTemplateVersionId = etv.Id
+	INNER JOIN dbo.SLMSTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.SLMSTemplateVersionId IS null and p.ProductSLMSTemplateVersionId IS NOT NULL AND p.ProductCode = 'TTN003'
+
+
+	UPDATE ProductSLMSTemplateVersionSet
+	SET SLMSTemplateVersionId = 3115
+	WHERE id = 266
+
+	SELECT * FROM BatchLog WHERE BatchName = 'ProductEmailSLMSTemplateApplyOrderJob'
+	SELECT * FROM ProductEmailSLMSTemplateApplyOrderLog
+	DELETE FROM dbo.BatchLog WHERE Id = 2386203
+
+	DECLARE @OrderNumber INT;
+	EXEC spSaveAndApplyToOrder 'TTN003', 'ProductEmailSLMSTemplateApplyOrderJob', @OrderNumber
+	SELECT @OrderNumber AS OrderNumber
+
+
+
+

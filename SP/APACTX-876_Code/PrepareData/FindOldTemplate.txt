@@ -1,0 +1,14 @@
+SELECT DISTINCT o.OrderNumber FROM dbo.OrderLine ol WITH(NOLOCK) 
+INNER JOIN [Order] o WITH(NOLOCK) ON ol.OrderId = o.Id
+WHERE ol.EmailTemplateVersionId IS NOT NULL
+
+select o.OrderNumber, p.ProductCode from Voucher v WITH(nolock)
+join OrderBeneficiaryInfo obi WITH(nolock) on obi.Id = v.BeneficiaryInfoId 
+join OrderLine ol WITH(nolock) on ol.Id = obi.OrderLineId 
+join [Order] o WITH(NOLOCK) ON o.Id = ol.OrderId
+JOIN dbo.ClientQuotationProduct cqp WITH(nolock) ON ol.ClientQuotationProductId = cqp.Id
+JOIN dbo.ClientQuotation cq WITH(NOLOCK) ON cqp.ClientQuotationId = cq.Id
+JOIN dbo.Client c WITH(NOLOCK) ON cq.ClientId = c.Id
+JOIN dbo.ProductVersion pv WITH(NOLOCK) ON cqp.ProductVersionId = pv.Id
+JOIN dbo.Product p WITH(NOLOCK) ON p.Id = pv.ProductId
+where o.OrderNumber = '201409170014'

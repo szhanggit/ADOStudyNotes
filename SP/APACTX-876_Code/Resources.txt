@@ -1,0 +1,41 @@
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\UserControls\UCProduct\ProductDesignProduct.ascx.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\UserControls\UCProduct\ProductDesignProduct.ascx
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\UserControls\ProductCustomize.ascx
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\UserControls\ProductCustomize.ascx.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx.cs
+
+{"Invalid object name '#RunningResult'."}
+TTN003
+Changes:
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.ADOAccess\DataProvider.cs
+ProductEmailSLMSTemplateApplyOrderLog.sql
+spSaveAndApplyToOrder.sql
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Batch\BatchConstant.cs
+Do not forget enabling save!!!
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Batch\ProductEmailSLMSTemplateApplyOrderJob.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.ADOAccess\SqlStringManager.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.ADOAccess\DataProvider.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Batch\App.config
+spProductEmailSLMSTemplateApplyOrder
+ProductEmailSLMSTemplateApplyOrderType
+spSubProductEmailApplyOrder
+spSubProductSLMSApplyOrder
+SingleListType.sql
+spCheckApplyToOrderStatus.sql
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Batch\quartz_jobs.xml
+
+Second Changes:
+ProductEmailSLMSTemplateApplyOrderLog.sql
+ProductEmailSLMSTemplateApplyOrderTask.sql
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Web\Pages\ProductDetailPage.aspx.cs
+Do not forget enabling save!!!
+spSaveAndApplyToOrder.sql
+spCheckApplyToOrderStatus.sql
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.Common\Enums.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.ADOAccess\DataProvider.cs
+D:\E\eVoucher\Git\03.EV.MO\02.Development\02.SourceCode\eVoucher.MO.ADOAccess\SqlStringManager.cs
+spProductEmailSLMSTemplateApplyOrder

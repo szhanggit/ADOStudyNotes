@@ -1,0 +1,53 @@
+--New Version
+use [d_ev_mo]
+
+	SELECT p.ProductCode, petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductEmailTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductEmailTemplateVersionId = petvs.ProductEmailTemplateVersionId
+	INNER JOIN dbo.EmailTemplateVersion etv WITH(NOLOCK) ON petvs.EmailTemplateVersionId = etv.Id
+	INNER JOIN dbo.EmailTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.EmailTemplateVersionId IS null and p.ProductEmailTemplateVersionId IS NOT NULL
+
+	SELECT * FROM dbo.EmailTemplateVersion WITH(NOLOCK) WHERE IsCurrentVersion = 1 and TemplateId IN (
+		SELECT etv.TemplateId FROM dbo.EmailTemplateVersion etv WITH(NOLOCK) WHERE etv.Id = 2160
+	)
+
+	EXEC spMakeProductEmailTemplateToLatestVersion N'MC0001';
+	--Old 2160; New 6185
+	SELECT * FROM ProductEmailTemplateVersionSet WITH(NOLOCK) WHERE id = 2654
+	UPDATE ProductEmailTemplateVersionSet
+	SET EmailTemplateVersionId = 2160
+	WHERE id = 2654
+
+
+
+--Old Version
+SELECT p.ProductCode, p.EmailTemplateVersionId, p.ProductEmailTemplateVersionId FROM Product p WITH(NOLOCK) WHERE p.EmailTemplateVersionId IS NOT NULL
+
+	SELECT p.ProductCode, p.EmailTemplateVersionId FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN dbo.EmailTemplateVersion etv WITH(NOLOCK) ON p.EmailTemplateVersionId = etv.Id
+	INNER JOIN dbo.EmailTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.EmailTemplateVersionId IS not NULL
+    
+	SELECT * FROM dbo.EmailTemplateVersion WITH(NOLOCK) WHERE IsCurrentVersion = 1 and TemplateId IN (
+		SELECT etv.TemplateId FROM dbo.EmailTemplateVersion etv WITH(NOLOCK) WHERE etv.Id = 2148
+	)
+
+	SELECT * FROM dbo.EmailTemplateVersion WITH(NOLOCK) WHERE TemplateId = 5
+
+	EXEC spMakeProductEmailTemplateToLatestVersion N'T180129001';
+	--Old 12; New 2148
+	SELECT EmailTemplateVersionId, ProductEmailTemplateVersionId, EmailTemplateTagValueId FROM Product WITH(NOLOCK) WHERE ProductCode = 'T180129001'
+	UPDATE dbo.Product
+	SET EmailTemplateVersionId = 12, EmailTemplateTagValueId = 9660, ProductEmailTemplateVersionId = NULL
+	WHERE ProductCode = 'T180129001'
+
+	SELECT petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductEmailTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductEmailTemplateVersionId = petvs.ProductEmailTemplateVersionId
+	INNER JOIN dbo.EmailTemplateVersion etv WITH(NOLOCK) ON petvs.EmailTemplateVersionId = etv.Id
+	INNER JOIN dbo.EmailTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.EmailTemplateVersionId IS null and p.ProductEmailTemplateVersionId IS NOT NULL AND p.ProductCode = 'T180129001'
+	DELETE FROM ProductEmailTemplateVersionSet WHERE ProductEmailTemplateVersionId = 8705
+	DELETE FROM ProductEmailTemplateVersion WHERE Id = 8705
+
+	SELECT * FROM ProductEmailTemplateVersionSet WITH(NOLOCK) WHERE ProductEmailTemplateVersionId = 8705
+	SELECT * FROM ProductEmailTemplateVersion WITH(NOLOCK) WHERE id = 8705

@@ -1,0 +1,30 @@
+﻿IF type_id('dbo.SingleStringListType') IS NOT NULL
+        DROP TYPE dbo.SingleStringListType;
+/* Create a User-Defined Table Type. */
+CREATE TYPE SingleStringListType	
+   AS TABLE (StrElement VARCHAR(100));
+GO
+
+IF EXISTS ( SELECT  1
+            FROM    dbo.sysobjects
+            WHERE   id = OBJECT_ID(N'[dbo].[spGetAdoraLECheckingData]')
+                    AND OBJECTPROPERTY(id, N'IsProcedure') = 1 )
+    DROP PROCEDURE [dbo].spGetAdoraLECheckingData
+GO
+
+CREATE PROCEDURE spGetAdoraLECheckingData 
+	@AccountNumberList SingleStringListType READONLY
+AS
+BEGIN
+	SET NOCOUNT ON;
+		
+	select * from [TransactionHistory] with(nolock) where AccountNumber in (SELECT StrElement FROM @AccountNumberList) order by TranLocalDateTime asc
+	select * from [Transaction] with(nolock) where AccountNumber in (SELECT StrElement FROM @AccountNumberList) order by TranLocalDateTime asc
+	select * from AccountLE with(nolock) where AccountNumber in (SELECT StrElement FROM @AccountNumberList)
+	select * from transactionLE_ext with(nolock) where AccountNumber in (SELECT StrElement FROM @AccountNumberList)
+	select * from Account with(nolock) where AccountNumber in (SELECT StrElement FROM @AccountNumberList)
+	select le.AccountNumber, les.* from AccountLE le with(nolock) 
+	inner join AccountLETrans les with(nolock) on le.Id = les.AccountLEId
+	where le.AccountNumber in (SELECT StrElement FROM @AccountNumberList)
+END
+GO

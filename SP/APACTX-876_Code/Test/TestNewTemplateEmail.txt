@@ -1,0 +1,72 @@
+Unit Test:
+DECLARE @SingleList AS SingleListType;
+/* Add data to the table variable. */
+INSERT INTO @SingleList(Id) values (11);
+
+EXEC [dbo].[spSubProductEmailApplyOrder] 'TTN003', '201712150967', 13, @SingleList;
+
+
+---------------------------------------------------------------------------------------------------
+Testing Data:
+'TTN003', 
+'201712150967',
+{MerchantLogo}	10
+{PRODUCT_NAME}	11
+---------------------------------------------------------------------------------------------------
+Reset Data:
+UPDATE ProductEmailSLMSTemplateApplyOrderLog
+SET [Status] = 0
+UPDATE dbo.BatchLog
+SET [Status] = 1, ExecuteEndTime = GETDATE()
+WHERE BatchName = 'ProductEmailSLMSTemplateApplyOrderJob'
+
+UPDATE OrderEmailTemplateTagValueSet
+SET [Value] = '!!! asdf'
+WHERE Id IN (6373, 6374)
+
+
+---------------------------------------------------------------------------------------------------
+SELECT * FROM dbo.BatchLog WHERE BatchName = 'ProductEmailSLMSTemplateApplyOrderJob'
+SELECT * FROM ProductEmailSLMSTemplateApplyOrderLog
+
+
+
+
+
+
+SELECT Id, EmailTemplateVersionId, ProductEmailTemplateVersionId FROM dbo.Product WITH(NOLOCK) WHERE ProductCode = 'TTN003'
+SELECT ol.Id, ol.EmailTemplateVersionId, ol.OrderEmailTemplateVersionId FROM [Order] o WITH(NOLOCK) 
+INNER JOIN OrderLine ol WITH(NOLOCK) ON o.Id = ol.OrderId 
+INNER JOIN dbo.ClientQuotationProduct cqp WITH(NOLOCK) ON ol.ClientQuotationProductId = cqp.Id
+INNER JOIN dbo.ProductVersion pv WITH(NOLOCK) ON pv.Id = cqp.ProductVersionId
+INNER JOIN dbo.Product p WITH(NOLOCK) ON pv.ProductId = p.Id
+WHERE o.OrderNumber = '201712150967' AND p.ProductCode = 'TTN003'
+
+	select * from ProductEmailTemplateVersionSet where ProductEmailTemplateVersionId = 618
+	select * from OrderEmailTemplateVersionSet where OrderEmailTemplateVersionId = 6149
+
+	select p.tn as TagName, p.Value as PValue, o.Value as OValue from 
+	(select ptv.EmailTemplateTagValueId as id, pes.TextValue, pes.Value, pct.TagName as tn from ProductEmailTemplateVersionSet ptv with(nolock) 
+	inner join ProductEmailContentTagValueSet pes with(nolock) on ptv.EmailTemplateTagValueId = pes.ProductEmailTemplateTagValueId
+	inner join ContentTag pct with(nolock) on pct.Id = pes.ContentTagId
+	where ptv.Id = 641) P
+	inner join
+	(select otv.EmailTemplateTagValueId as id, oes.Value, pct.TagName as tn from OrderEmailTemplateVersionSet otv with(nolock) 
+	inner join OrderEmailTemplateTagValueSet oes with(nolock) on otv.EmailTemplateTagValueId = oes.OrderEmailTemplateTagValueId
+	inner join ContentTag pct with(nolock) on pct.Id = oes.ContentTagId
+	where otv.Id = 6155) o on p.tn = o.tn 
+	where p.Value is not null and p.Value <> ''
+
+
+
+
+select oes.Id as id, oes.Value, pct.TagName as tn from OrderEmailTemplateVersionSet otv with(nolock) 
+	inner join OrderEmailTemplateTagValueSet oes with(nolock) on otv.EmailTemplateTagValueId = oes.OrderEmailTemplateTagValueId
+	inner join ContentTag pct with(nolock) on pct.Id = oes.ContentTagId
+	where otv.Id = 6155
+
+
+
+	SELECT * FROM OrderEmailTemplateTagValueSet WHERE Id IN (6373, 6374)
+
+	SELECT * FROM ContentTag WHERE TagName = '{PRODUCT_NAME}'

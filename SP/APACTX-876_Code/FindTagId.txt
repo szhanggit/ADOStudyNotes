@@ -1,0 +1,1 @@
+SELECT * FROM dbo.ContentTag WITH(NOLOCK) WHERE TagName LIKE '%Greeting%'

@@ -1,0 +1,50 @@
+--New Template
+use [d_ev_mo]
+
+	SELECT p.ProductCode, petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductSLMSTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductSLMSTemplateVersionId = petvs.ProductSLMSTemplateVersionId
+	INNER JOIN dbo.SLMSTemplateVersion etv WITH(NOLOCK) ON petvs.SLMSTemplateVersionId = etv.Id
+	INNER JOIN dbo.SLMSTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.SLMSTemplateVersionId IS null and p.ProductSLMSTemplateVersionId IS NOT NULL
+
+	SELECT * FROM dbo.SLMSTemplateVersion WITH(NOLOCK) WHERE IsCurrentVersion = 1 and TemplateId IN (
+		SELECT etv.TemplateId FROM dbo.SLMSTemplateVersion etv WITH(NOLOCK) WHERE etv.Id = 3114
+	)
+
+	SELECT * FROM dbo.SLMSTemplateVersion WITH(NOLOCK) WHERE TemplateId = 15
+
+	EXEC spMakeProductSLMSTemplateToLatestVersion N'TTN003';
+	--Old 3115; New 3114
+	SELECT * FROM ProductSLMSTemplateVersionSet WITH(NOLOCK) WHERE id = 266
+	UPDATE ProductSLMSTemplateVersionSet
+	SET SLMSTemplateVersionId = 3115
+	WHERE id = 266
+
+
+--Old Template
+
+SELECT p.ProductCode, p.SLMSTemplateVersionId, p.ProductSLMSTemplateVersionId, p.SLMSTemplateTagValueId FROM Product p WITH(NOLOCK) WHERE p.SLMSTemplateVersionId IS NOT NULL AND p.ProductCode = 'PER0008'
+  
+	SELECT * FROM dbo.SLMSTemplateVersion WITH(NOLOCK) WHERE IsCurrentVersion = 1 and TemplateId IN (
+		SELECT etv.TemplateId FROM dbo.SLMSTemplateVersion etv WITH(NOLOCK) WHERE etv.Id = 5
+	)
+
+	SELECT * FROM dbo.SLMSTemplateVersion WITH(NOLOCK) WHERE TemplateId = 2
+
+	EXEC spMakeProductSLMSTemplateToLatestVersion N'PER0008';
+	--Old 1071; New 2093
+	SELECT SLMSTemplateVersionId, ProductSLMSTemplateVersionId, SLMSTemplateTagValueId FROM Product WITH(NOLOCK) WHERE ProductCode = 'PER0008'
+	UPDATE dbo.Product
+	SET SLMSTemplateVersionId = 1071, SLMSTemplateTagValueId = 36, ProductSLMSTemplateVersionId = NULL
+	WHERE ProductCode = 'PER0008'
+
+	SELECT petvs.* FROM dbo.Product p WITH(NOLOCK) 
+	INNER JOIN ProductSLMSTemplateVersionSet petvs WITH(NOLOCK) ON p.ProductSLMSTemplateVersionId = petvs.ProductSLMSTemplateVersionId
+	INNER JOIN dbo.SLMSTemplateVersion etv WITH(NOLOCK) ON petvs.SLMSTemplateVersionId = etv.Id
+	INNER JOIN dbo.SLMSTemplate et WITH(NOLOCK) ON etv.TemplateId = et.Id
+	WHERE p.SLMSTemplateVersionId IS null and p.ProductSLMSTemplateVersionId IS NOT NULL AND p.ProductCode = 'PER0008'
+	DELETE FROM ProductSLMSTemplateVersionSet WHERE ProductSLMSTemplateVersionId = 5272
+	DELETE FROM ProductSLMSTemplateVersion WHERE Id = 5272
+
+	SELECT * FROM ProductSLMSTemplateVersionSet WITH(NOLOCK) WHERE ProductSLMSTemplateVersionId = 5272
+	SELECT * FROM ProductSLMSTemplateVersion WITH(NOLOCK) WHERE id = 5272
