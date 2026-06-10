@@ -1,0 +1,43 @@
+# Integration Test
+# https://aka.ms/yaml
+
+trigger:
+- develop
+
+variables:
+  solutionMain: '**/Web.Api.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  vmImage: 'windows-2019'
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build_Projects_And_Artifacts
+    displayName: Build
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+      - task: NuGetToolInstaller@1
+      - task: NuGetCommand@2
+        inputs:
+          command: 'restore'
+          restoreSolution: '$(solutionMain)'
+          feedsToUse: 'select'
+          vstsFeed: '69ce1b3a-c186-4fa3-b834-9b732e774cb9/c85921de-4ab2-4744-9993-3f0f1eb3e172'
+          
+      - task: VSBuild@1
+        displayName: Build and Publish SpecFlow.Test to Folder
+        inputs:
+          solution: '$(solutionMain)'
+          msbuildArgs: '/t:SpecFlow_Test:publish /p:PublishProfile=SpecFlow_Dev /p:PublishDir="$(build.artifactStagingDirectory)\SpecFlow_Test"'
+          platform: '$(buildPlatform)'
+          configuration: '$(buildConfiguration)'
+          vsVersion: "16.0"
+
+      - task: PublishBuildArtifacts@1
+        displayName: Publish SpecFlow.Test to Artifacts
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)\SpecFlow_Test'
+          ArtifactName: 'specflowdrop'
+          publishLocation: 'Container'

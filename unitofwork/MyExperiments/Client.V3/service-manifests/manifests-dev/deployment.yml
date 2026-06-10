@@ -1,0 +1,92 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: dev
+  name: client-api 
+  labels:
+    app: client-api
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:      
+      app: client-api
+  template:
+    metadata:
+      labels:
+        app: client-api 
+        tier: backend
+    spec:
+      containers:
+        - name: client-api 
+          image: esgaksacrd.azurecr.io/txc-client-api:$(tag)
+          volumeMounts:
+          - name: esg-dev-secrets-store01-inline
+            mountPath: "/mnt/secrets-store"
+            readOnly: true
+          ports:
+          - containerPort: 8005
+          - containerPort: 9005
+          env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: "Dev"
+            - name: Dev-TenantDBConnectionString-1
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-1
+                  key: dev-tenantdbconnectionstring-1
+            - name: Dev-TenantDBConnectionString-2
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-2
+                  key: dev-tenantdbconnectionstring-2
+            - name: Dev-TenantDBConnectionString-3
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-3
+                  key: dev-tenantdbconnectionstring-3
+            - name: Dev-TenantDBConnectionString-4
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-4
+                  key: dev-tenantdbconnectionstring-4
+            - name: Dev-TenantDBConnectionString-5
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-5
+                  key: dev-tenantdbconnectionstring-5
+            - name: Dev-TenantDBConnectionString-6
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-6
+                  key: dev-tenantdbconnectionstring-6
+            - name: Dev-TenantDBConnectionString-7
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-7
+                  key: dev-tenantdbconnectionstring-7
+            - name: Dev-TenantDBConnectionString-8
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-8
+                  key: dev-tenantdbconnectionstring-8
+            - name: Dev-TenantDBConnectionString-9
+              valueFrom:
+                secretKeyRef:
+                  name: dev-tenantdbconnectionstring-9
+                  key: dev-tenantdbconnectionstring-9
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+      restartPolicy: Always
+      volumes:
+      - name: esg-dev-secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "esg-dev-aks-spc" 

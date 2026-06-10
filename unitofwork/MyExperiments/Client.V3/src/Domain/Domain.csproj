@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Request\**" />
+    <EmbeddedResource Remove="Models\Request\**" />
+    <None Remove="Models\Request\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Entities\ClientEF.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TXC.Common.Domain" Version="2.0.0" />
+    <PackageReference Include="TXC.Proto.Credit" Version="2.0.0.4" />
+  </ItemGroup>
+
+</Project>

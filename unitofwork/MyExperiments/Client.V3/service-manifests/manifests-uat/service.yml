@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: client-api-svc
+    namespace: uat
+    labels:
+        app: client-api
+        tier: backend
+spec:
+    type: ClusterIP
+    ports:
+        - name: "8005"
+          port: 8005
+          targetPort: 8005
+        - name: "9005"
+          port: 9005
+          targetPort: 9005
+    selector:
+        app: client-api
+        tier: backend
